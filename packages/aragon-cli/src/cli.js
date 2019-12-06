@@ -41,6 +41,7 @@ const cmd = require('yargs')
   })
   .usage(`Usage: aragon <command> [options]`)
   .commandDir('./commands')
+  .onFinishCommand(() => process.exit())
 
 cmd.middleware(MIDDLEWARES)
 
