@@ -146,4 +146,6 @@ exports.handler = async function({
       ? `Created DAO: ${green(aragonId)} at ${green(ctx.daoAddress)}`
       : `Created DAO: ${green(ctx.daoAddress)}`
   )
+
+  return ctx.daoAddress
 }
