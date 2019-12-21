@@ -1,9 +1,23 @@
 import test from 'ava'
-//
+import * as yargs from 'yargs'
+import * as daoNewCmd from '../../src/commands/dao_cmds/new'
 import { runAragonCLI } from '../util'
 
 const daoAddressRegex = /Created DAO: (.*)$/
 const daoIdAndAddressAddressRegex = /Created DAO: (.*) at (.*)$/
+
+test('Parses CLI argument correctly', t => {
+  const argv = yargs
+    // Overwrite the handler so it is not run
+    // TODO: Find a cleaner way to trigger argument parsing
+    .command({ ...daoNewCmd, handler: null })
+    .parse(`new some-template v0.2.0 --debug`, () => {})
+
+  t.is(argv.template, 'some-template')
+  t.is(argv.templateVersion, 'v0.2.0')
+  t.is(argv.deployEvent, 'DeployDao')
+  t.is(argv.debug, true)
+})
 
 test('creates a new DAO', async t => {
   const { stdout } = await runAragonCLI(['dao', 'new'])
